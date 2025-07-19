@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:54:19 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 17:07:15 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/19 18:46:59 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ pid_t	parse_args(int argc, char **argv)
 	char	*str;
 
 	if (argc != 3 || !argv[1] || !argv[2] || !argv[1][0] || !argv[2][0])
-		handle_errors("Usage: ./client <server_pid> <message>");
+		handle_errors("Usage: ./client_bonus <server_pid> <message>");
 	str = argv[1];
 	while (*str)
 	{

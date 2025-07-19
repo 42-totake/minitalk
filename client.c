@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:54:19 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 17:07:15 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/19 20:22:30 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@ int	main(int argc, char **argv)
 	ft_bzero(&sa, sizeof(struct sigaction));
 	sa.sa_sigaction = handle_ack;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	if (sigemptyset(&sa.sa_mask) == -1 || sigaction(SIGUSR1, &sa, NULL) == -1)
 		handle_errors("sigaction: failed to set handler for SIGUSR1");
 	msg = argv[2];
 	while (*msg)

@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:53:43 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 21:53:53 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/19 22:07:39 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,20 +86,18 @@ int	main(void)
 	ft_printf("Server PID: %d\n", getpid());
 	while (1)
 	{
-		if (g_state.signal_received)
+		while (!g_state.signal_received)
+			usleep(100);
+		if (g_state.received_sig == SIGUSR1)
+			char_buf |= (1 << (7 - bit_count));
+		if (++bit_count == 8)
 		{
-			if (g_state.received_sig == SIGUSR1)
-				char_buf |= (1 << (7 - bit_count));
-			if (++bit_count == 8)
-			{
-				write(1, &char_buf, 1);
-				char_buf = 0;
-				bit_count = 0;
-			}
-			if (kill(g_state.sender_pid, SIGUSR1) == -1)
-				handle_errors("kill: failed to send signal (SIGUSR1)");
-			g_state.signal_received = 0;
+			write(1, &char_buf, 1);
+			char_buf = 0;
+			bit_count = 0;
 		}
-		usleep(100);
+		if (kill(g_state.sender_pid, SIGUSR1) == -1)
+			handle_errors("kill: failed to send signal (SIGUSR1)");
+		g_state.signal_received = 0;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:54:19 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 20:22:30 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/19 20:27:27 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	send_char(pid_t server_pid, unsigned char c)
 	i = 7;
 	while (i >= 0)
 	{
-		usleep(50);
 		bit = (c >> i) & 1;
 		if (bit)
 		{
@@ -58,7 +57,7 @@ void	send_char(pid_t server_pid, unsigned char c)
 				handle_errors("kill: failed to send signal (SIGUSR2)");
 		}
 		while (!g_ack_received)
-			pause();
+			usleep(100);
 		g_ack_received = 0;
 		i--;
 	}

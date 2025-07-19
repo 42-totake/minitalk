@@ -6,12 +6,21 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:53:43 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 16:50:32 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/19 21:53:53 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <signal.h>
+
+typedef struct s_signal_state
+{
+	volatile sig_atomic_t	signal_received;
+	volatile sig_atomic_t	sender_pid;
+	volatile sig_atomic_t	received_sig;
+}							t_signal_state;
+
+t_signal_state				g_state = {0, 0, 0};
 
 void	handle_errors(const char *msg)
 {
@@ -25,40 +34,72 @@ void	handle_errors(const char *msg)
 	exit(1);
 }
 
+// void	handle_signal(int sig, siginfo_t *info, void *context)
+// {
+// 	static unsigned char	char_buf = 0;
+// 	static int				bit_count = 0;
+
+// 	(void)context;
+// 	if (sig == SIGUSR1)
+// 		char_buf |= (1 << (7 - bit_count));
+// 	bit_count++;
+// 	if (bit_count == 8)
+// 	{
+// 		write(1, &char_buf, 1);
+// 		char_buf = 0;
+// 		bit_count = 0;
+// 	}
+// 	usleep(50);
+// 	if (kill(info->si_pid, SIGUSR1) == -1)
+// 		handle_errors("kill: failed to send signal (SIGUSR1)");
+// }
+
 void	handle_signal(int sig, siginfo_t *info, void *context)
 {
-	static unsigned char	char_buf = 0;
-	static int				bit_count = 0;
-
 	(void)context;
-	if (sig == SIGUSR1)
-		char_buf |= (1 << (7 - bit_count));
-	bit_count++;
-	if (bit_count == 8)
-	{
-		write(1, &char_buf, 1);
-		char_buf = 0;
-		bit_count = 0;
-	}
-	usleep(50);
-	if (kill(info->si_pid, SIGUSR1) == -1)
-		handle_errors("kill: failed to send signal (SIGUSR1)");
+	g_state.signal_received = 1;
+	g_state.received_sig = sig;
+	g_state.sender_pid = info->si_pid;
 }
 
-int	main(void)
+void	setup_signal_handlers(void)
 {
 	struct sigaction	sa;
 
-	ft_bzero(&sa, sizeof(struct sigaction));
+	ft_bzero(&sa, sizeof(sa));
 	sa.sa_sigaction = handle_signal;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
+	if (sigemptyset(&sa.sa_mask) == -1)
+		handle_errors("sigemptyset: failed to sigemptyset");
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
 		handle_errors("sigaction: failed to set handler for SIGUSR1");
 	if (sigaction(SIGUSR2, &sa, NULL) == -1)
 		handle_errors("sigaction: failed to set handler for SIGUSR2");
+}
+
+int	main(void)
+{
+	static unsigned char	char_buf = 0;
+	static int				bit_count = 0;
+
+	setup_signal_handlers();
 	ft_printf("Server PID: %d\n", getpid());
 	while (1)
-		pause();
-	return (0);
+	{
+		if (g_state.signal_received)
+		{
+			if (g_state.received_sig == SIGUSR1)
+				char_buf |= (1 << (7 - bit_count));
+			if (++bit_count == 8)
+			{
+				write(1, &char_buf, 1);
+				char_buf = 0;
+				bit_count = 0;
+			}
+			if (kill(g_state.sender_pid, SIGUSR1) == -1)
+				handle_errors("kill: failed to send signal (SIGUSR1)");
+			g_state.signal_received = 0;
+		}
+		usleep(100);
+	}
 }

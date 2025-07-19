@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:53:43 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 22:07:39 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/19 23:22:08 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,6 @@ void	handle_errors(const char *msg)
 	write(2, "\n", 1);
 	exit(1);
 }
-
-// void	handle_signal(int sig, siginfo_t *info, void *context)
-// {
-// 	static unsigned char	char_buf = 0;
-// 	static int				bit_count = 0;
-
-// 	(void)context;
-// 	if (sig == SIGUSR1)
-// 		char_buf |= (1 << (7 - bit_count));
-// 	bit_count++;
-// 	if (bit_count == 8)
-// 	{
-// 		write(1, &char_buf, 1);
-// 		char_buf = 0;
-// 		bit_count = 0;
-// 	}
-// 	usleep(50);
-// 	if (kill(info->si_pid, SIGUSR1) == -1)
-// 		handle_errors("kill: failed to send signal (SIGUSR1)");
-// }
 
 void	handle_signal(int sig, siginfo_t *info, void *context)
 {
@@ -88,6 +68,7 @@ int	main(void)
 	{
 		while (!g_state.signal_received)
 			usleep(100);
+		g_state.signal_received = 0;
 		if (g_state.received_sig == SIGUSR1)
 			char_buf |= (1 << (7 - bit_count));
 		if (++bit_count == 8)
@@ -96,8 +77,8 @@ int	main(void)
 			char_buf = 0;
 			bit_count = 0;
 		}
+		usleep(50);
 		if (kill(g_state.sender_pid, SIGUSR1) == -1)
 			handle_errors("kill: failed to send signal (SIGUSR1)");
-		g_state.signal_received = 0;
 	}
 }

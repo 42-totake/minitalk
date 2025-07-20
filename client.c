@@ -6,14 +6,11 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:54:19 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 23:14:06 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/20 00:17:53 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <signal.h>
-#define MIN_PID 1
-#define MAX_PID 4194304
+#include "minitalk.h"
 
 volatile sig_atomic_t	g_ack_received = 0;
 

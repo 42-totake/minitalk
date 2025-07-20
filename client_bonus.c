@@ -5,15 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 17:54:19 by totake            #+#    #+#             */
-/*   Updated: 2025/07/19 18:46:59 by totake           ###   ########.fr       */
+/*   Created: 2025/07/20 00:24:26 by totake            #+#    #+#             */
+/*   Updated: 2025/07/20 00:24:40 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <signal.h>
-#define MIN_PID 1
-#define MAX_PID 4194304
+#include "minitalk.h"
 
 volatile sig_atomic_t	g_ack_received = 0;
 
@@ -58,7 +55,7 @@ void	send_char(pid_t server_pid, unsigned char c)
 				handle_errors("kill: failed to send signal (SIGUSR2)");
 		}
 		while (!g_ack_received)
-			pause();
+			usleep(100);
 		g_ack_received = 0;
 		i--;
 	}
@@ -96,8 +93,7 @@ int	main(int argc, char **argv)
 	ft_bzero(&sa, sizeof(struct sigaction));
 	sa.sa_sigaction = handle_ack;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	if (sigemptyset(&sa.sa_mask) == -1 || sigaction(SIGUSR1, &sa, NULL) == -1)
 		handle_errors("sigaction: failed to set handler for SIGUSR1");
 	msg = argv[2];
 	while (*msg)
@@ -105,3 +101,4 @@ int	main(int argc, char **argv)
 	ft_printf("%s\n", "SUCCESS");
 	return (0);
 }
+

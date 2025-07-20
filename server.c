@@ -6,19 +6,11 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:53:43 by totake            #+#    #+#             */
-/*   Updated: 2025/07/20 00:11:22 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/20 00:18:43 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <signal.h>
-
-typedef struct s_signal_state
-{
-	volatile sig_atomic_t	signal_received;
-	volatile sig_atomic_t	sender_pid;
-	volatile sig_atomic_t	received_sig;
-}							t_signal_state;
+#include "minitalk.h"
 
 t_signal_state				g_state = {0, 0, 0};
 

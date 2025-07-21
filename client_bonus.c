@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:24:26 by totake            #+#    #+#             */
-/*   Updated: 2025/07/20 00:24:40 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/21 16:42:40 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,3 @@ int	main(int argc, char **argv)
 	ft_printf("%s\n", "SUCCESS");
 	return (0);
 }
-

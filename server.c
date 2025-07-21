@@ -6,13 +6,13 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:53:43 by totake            #+#    #+#             */
-/*   Updated: 2025/07/20 00:18:43 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/21 16:43:45 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-t_signal_state				g_state = {0, 0, 0};
+t_signal_state	g_state = {0, 0, 0};
 
 void	handle_errors(const char *msg)
 {
@@ -68,8 +68,9 @@ int	main(void)
 {
 	static unsigned char	char_buf = 0;
 	static int				bit_count = 0;
-	int				usleep_count = 0;
+	int						usleep_count;
 
+	usleep_count = 0;
 	setup_signal_handlers();
 	ft_printf("Server PID: %d\n", getpid());
 	while (1)
@@ -90,4 +91,3 @@ int	main(void)
 		process_signal(&char_buf, &bit_count);
 	}
 }
-

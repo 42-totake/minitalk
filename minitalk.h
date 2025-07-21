@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 00:16:50 by totake            #+#    #+#             */
-/*   Updated: 2025/07/20 00:17:26 by totake           ###   ########.fr       */
+/*   Created: 2025/07/21 16:46:23 by totake            #+#    #+#             */
+/*   Updated: 2025/07/21 16:46:28 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ typedef struct s_signal_state
 	volatile sig_atomic_t	signal_received;
 	volatile sig_atomic_t	sender_pid;
 	volatile sig_atomic_t	received_sig;
-}	t_signal_state;
+}							t_signal_state;
 
 #endif

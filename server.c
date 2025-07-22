@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:53:43 by totake            #+#    #+#             */
-/*   Updated: 2025/07/21 16:43:45 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/22 18:51:27 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	main(void)
 			usleep(100);
 			if (++usleep_count >= 10000)
 			{
-				write(2, "Error: Timeout\n", 15);
 				char_buf = 0;
 				bit_count = 0;
 				usleep_count = 0;

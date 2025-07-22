@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:35:54 by totake            #+#    #+#             */
-/*   Updated: 2025/07/18 02:59:26 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/21 18:24:25 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <limits.h> //LONG_MAX, LONG_MIN
 # include <stddef.h> //size_t
 # include <stdint.h> //SIZE_MAX uintptr_t
-# include <stdlib.h> //malloc
+# include <stdlib.h> //
 # include <unistd.h> //write
 # include <stdarg.h> // va_start(), va_arg(), va_end(), va_copy()
 
